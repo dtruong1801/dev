@@ -7,7 +7,7 @@ import com.devops.backend.persistence.domain.backend.UserRole;
 import com.devops.backend.service.UserService;
 import com.devops.enums.PlanEnum;
 import com.devops.enums.RoleEnum;
-import com.devops.utils.UsersUtils;
+import com.devops.utils.UserUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +32,7 @@ public class UserServiceIntegrationTest {
     public void testCreateNewUSer() throws Exception {
 
         Set<UserRole> userRoles = new HashSet<>();
-        User basicUser = UsersUtils.createBasicUser();
+        User basicUser = UserUtils.createBasicUser();
         userRoles.add(new UserRole(basicUser, new Role(RoleEnum.BASIC)));
 
         User user = userService.createUser(basicUser, PlanEnum.BASIC, userRoles);

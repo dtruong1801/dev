@@ -10,7 +10,7 @@ import com.devops.backend.persistence.repositories.RoleRepository;
 import com.devops.backend.persistence.repositories.UserRepository;
 import com.devops.enums.PlanEnum;
 import com.devops.enums.RoleEnum;
-import com.devops.utils.UsersUtils;
+import com.devops.utils.UserUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,8 +37,6 @@ public class RepositoriesIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    private static final int BASIC_PLAN_ID = 1;
 
     @Before
     public void init() {
@@ -68,22 +66,7 @@ public class RepositoriesIntegrationTest {
     @Test
     public void createNewUser() throws Exception {
 
-        Plan basicPlan = createPlan(PlanEnum.BASIC);
-        planRepository.save(basicPlan);
-
-        User basicUser = UsersUtils.createBasicUser();
-        basicUser.setPlan(basicPlan);
-
-        Role basicRole = createRole(RoleEnum.BASIC);
-        Set<UserRole> userRoles = new HashSet<>();
-        UserRole userRole = new UserRole(basicUser, basicRole);
-        userRoles.add(userRole);
-
-        basicUser.getUserRoles().addAll(userRoles);
-
-        for (UserRole ur : userRoles) {
-            roleRepository.save(ur.getRole());
-        }
+        User basicUser = createUser();
 
         basicUser = userRepository.save(basicUser);
         User newlyCreatedUser = userRepository.findOne(basicUser.getId());
@@ -98,6 +81,13 @@ public class RepositoriesIntegrationTest {
         }
     }
 
+    @Test
+    public void testDeleteUser() throws Exception {
+        User basicUser = createUser();
+        userRepository.delete(basicUser.getId());
+    }
+
+
     // Private Methods
 
     private Plan createPlan(PlanEnum planEnum) {
@@ -110,5 +100,25 @@ public class RepositoriesIntegrationTest {
         return role;
     }
 
+    private User createUser() {
+        Plan basicPlan = createPlan(PlanEnum.BASIC);
+        planRepository.save(basicPlan);
+
+        User basicUser = UserUtils.createBasicUser();
+        basicUser.setPlan(basicPlan);
+
+        Role basicRole = createRole(RoleEnum.BASIC);
+        roleRepository.save(basicRole);
+
+        Set<UserRole> userRoles = new HashSet<>();
+        UserRole userRole = new UserRole(basicUser, basicRole);
+        userRoles.add(userRole);
+
+        basicUser.getUserRoles().addAll(userRoles);
+        basicUser = userRepository.save(basicUser);
+
+        return basicUser;
+
+    }
 }
 

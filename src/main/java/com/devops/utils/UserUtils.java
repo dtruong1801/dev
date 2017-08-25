@@ -5,12 +5,12 @@ import com.devops.backend.persistence.domain.backend.User;
 /**
  * Created by dtruong1801 on 8/25/17.
  */
-public class UsersUtils {
+public class UserUtils {
 
     /**
      * Non instantiable
      */
-    private UsersUtils() {
+    private UserUtils() {
         throw new AssertionError("Non instantiable");
     }
 
