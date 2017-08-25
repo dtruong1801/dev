@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * Created by marsdev on 8/13/17.
+ * Created by dtruong1801 on 8/13/17.
  */
 @Configuration
 @Profile("Prod")
