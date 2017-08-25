@@ -8,6 +8,9 @@ import com.devops.backend.persistence.domain.backend.UserRole;
 import com.devops.backend.persistence.repositories.PlanRepository;
 import com.devops.backend.persistence.repositories.RoleRepository;
 import com.devops.backend.persistence.repositories.UserRepository;
+import com.devops.enums.PlanEnum;
+import com.devops.enums.RoleEnum;
+import com.devops.utils.UsersUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +39,6 @@ public class RepositoriesIntegrationTest {
     private UserRepository userRepository;
 
     private static final int BASIC_PLAN_ID = 1;
-    private static final int BASIC_ROLE_ID = 1;
 
     @Before
     public void init() {
@@ -47,31 +49,32 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void testCreatedNewPlan() throws Exception {
-        Plan basicPlan = createBasicPlan();
+        Plan basicPlan = createPlan(PlanEnum.BASIC);
         planRepository.save(basicPlan);
-        Plan retrievePlan = planRepository.findOne(BASIC_PLAN_ID);
+
+        Plan retrievePlan = planRepository.findOne(PlanEnum.BASIC.getId());
         Assert.assertNotNull(retrievePlan);
     }
 
     @Test
     public void testCreatedNewRole() throws Exception {
-        Role userRole = createBasicRole();
+        Role userRole = createRole(RoleEnum.BASIC);
         roleRepository.save(userRole);
 
-        Role retrieveRole = roleRepository.findOne(BASIC_ROLE_ID);
+        Role retrieveRole = roleRepository.findOne(RoleEnum.BASIC.getId());
         Assert.assertNotNull(retrieveRole);
     }
 
     @Test
     public void createNewUser() throws Exception {
 
-        Plan basicPlan = createBasicPlan();
+        Plan basicPlan = createPlan(PlanEnum.BASIC);
         planRepository.save(basicPlan);
 
-        User basicUser = createBasicUser();
+        User basicUser = UsersUtils.createBasicUser();
         basicUser.setPlan(basicPlan);
 
-        Role basicRole = createBasicRole();
+        Role basicRole = createRole(RoleEnum.BASIC);
         Set<UserRole> userRoles = new HashSet<>();
         UserRole userRole = new UserRole(basicUser, basicRole);
         userRoles.add(userRole);
@@ -97,34 +100,15 @@ public class RepositoriesIntegrationTest {
 
     // Private Methods
 
-    private Plan createBasicPlan() {
-        Plan plan = new Plan();
-        plan.setId(BASIC_PLAN_ID);
-        plan.setName("Basic");
+    private Plan createPlan(PlanEnum planEnum) {
+        Plan plan = new Plan(planEnum);
         return plan;
     }
 
-    private Role createBasicRole() {
-        Role role = new Role();
-        role.setId(BASIC_ROLE_ID);
-        role.setName("ROLE_USER");
+    private Role createRole(RoleEnum roleEnum) {
+        Role role = new Role(roleEnum);
         return role;
     }
 
-    private User createBasicUser() {
-        User user = new User();
-        user.setUsername("basicUser");
-        user.setPassword("secrete");
-        user.setEmail("me@example.com");
-        user.setFirstName("firstname");
-        user.setLastName("lastname");
-        user.setPhoneNumber("121212121221");
-        user.setCountry("usa");
-        user.setEnabled(true);
-        user.setDescription("A basic user");
-        user.setProfileImageUrl("https://devops.com/basicUser");
-
-        return user;
-    }
 }
 
