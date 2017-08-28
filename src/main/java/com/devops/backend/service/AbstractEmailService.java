@@ -14,7 +14,7 @@ public abstract class AbstractEmailService implements EmailService {
 
     /**
      * Create a Simple Mail Message from a Feedback Pojo
-     * @param feedbackPojo The Feedback Pojo
+     * @param feedback The Feedback Pojo
      * @return
      */
     protected SimpleMailMessage prepareSimpleMailMessageFromFeedbackPojo(FeedbackPojo feedback) {

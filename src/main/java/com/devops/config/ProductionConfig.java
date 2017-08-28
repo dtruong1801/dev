@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
  * Created by marsdev on 8/13/17.
  */
 @Configuration
-@Profile("Prod")
+@Profile("prod")
 @PropertySource("file:///${user.home}/devops/.devops/application-prod.properties")
 public class ProductionConfig {
 
